@@ -26,7 +26,7 @@ typedef struct _ListTestCase ListTestCase;
 typedef struct _Node Node;
 typedef struct _ListNode ListNode;
 typedef struct _Tree Tree;
-typedef struct _Soluton Solution;
+typedef struct _ListTask ListTask;
 
 /* TestCase */
 struct _TestCase {
@@ -50,7 +50,7 @@ struct _Node{
 	struct _Node *parent;		// pointer to parent node
 	int level;					// number of node needed to travel to Root from this node
 	ListNode *listChildren;	// list of pointer to chidren of this node
-	ListNode *listDepend;	// list of dependent node that are not the children of this node
+	ListTask *listDepend;	// list of dependent TASK that are not the children of this node
 	// Operators
 	// born(Node*, int): initialize a node with specific parent, and task number
 	// reborn(int step): move node, its children, its dependent nodes down to given step
@@ -100,17 +100,21 @@ void init(Tree *tree);
 bool grow(Tree *tree, TestCase *testCase);
 
 // result
-Solution *result(Tree *tree);
+ListTask *result(Tree *tree, TestCase *testCase);
 
 // destroy tree
 void destroy(Tree *tree);
 
 
-/* Linked list solution */
-struct _Soluton {
+/* Linked list ListTask */
+struct _ListTask {
 	int task;
-	int *next;
+	ListTask *next;
 };
+
+// add task into list
+void addListTask(ListTask *self, int task);
+
 
 /* Linked list for Node */
 struct _ListNode {
@@ -131,7 +135,7 @@ ListTestCase *get_data(void);
 
 /*	func to solve one test case 
 	* NOTE: the function does not validate the input testCase */
-Solution *solve(TestCase *testCase);
+ListTask *solve(TestCase *testCase);
 
 
 // // // // MAIN
@@ -171,6 +175,8 @@ int main(int argc, char const *argv[]) {
 			std::cout << "Level: " << tree->access[i]->level << "\n";
 		}	// close if
 	}	// close for
+	// solve one test
+	ListTask *sol = solve(test);
 	return 0;
 }	// end  main 
 
@@ -218,12 +224,19 @@ ListTestCase *get_data(void) {
 
 
 // solve 1 TestCase
-Solution *solve(TestCase *testCase) {
+ListTask *solve(TestCase *testCase) {
 	Tree *tree = new Tree;
 	init(tree);
 	bool isGrow = grow(tree, testCase);
-	static Solution *sol = result(tree);
-	destroy(tree);
+	if (isGrow == false)		// no solution for this algo
+		return NULL;
+	ListTask *sol = result(tree, testCase);
+	// print sol
+	while (sol != NULL) {
+		std::cout << sol->task << " ";
+		sol = sol->next;
+	}	// close while
+	// destroy(tree);
 	return sol;
 }	// close solve 1 test case
 
@@ -270,8 +283,8 @@ bool grow(Tree *tree, TestCase *testCase) {
 			continue;
 		}	 // close if
 		tree->state[taskB] = 0;		// movable
-		// add nodeB into listDepend of nodeA when nodeB is not a child of nodeA
-		addListNode(nodeA->listDepend, nodeB);
+		// add taskB into listDepend of nodeA when nodeB is not a child of nodeA
+		addListTask(nodeA->listDepend, taskB);
 		// When nodeA, nodeB already existed
 		// Need to moving nodeB if necessary
 		if (nodeB->level > nodeA->level)
@@ -293,8 +306,33 @@ bool grow(Tree *tree, TestCase *testCase) {
 
 
 // result
-Solution *result(Tree *tree) {
-	static Solution *sol = new Solution;
+ListTask *result(Tree *tree, TestCase *testCase) {
+	ListTask *sol = new ListTask;
+	int numTask = testCase->numTask;
+	// sort the access array in accending order of level
+	// selection sort
+	for (int i = 1; i < numTask; i ++ ) { 
+		int levelI = tree->access[i]->level;
+		for (int j = i + 1; j <= numTask; j ++ ) {
+			if (levelI > tree->access[j]->level) {
+				Node *node = tree->access[i];
+				tree->access[i] = tree->access[j];
+				tree->access[j] = node;
+			}	// close if
+		}	// close for 2
+	}	// close for
+	if (numTask >= 1) {
+		sol->task = tree->access[1]->task;
+		sol->next = NULL;
+	}	// close if
+	ListTask *current = sol;
+	for (int i = 2; i <= numTask; i ++ ) {
+		ListTask *next = new ListTask;
+		next->task = tree->access[i]->task;
+		next->next = NULL;
+		current->next = next;
+		current = next;
+	}	// close for
 	return sol;
 }	// close result
 
@@ -319,7 +357,8 @@ Node *born(Node *parent, int task) {
 		node->level = 0;
 		// close if
 	node->listChildren = new ListNode;
-	node->listDepend = new ListNode;
+	node->listDepend = new ListTask;
+	node->listDepend->task = 0;		// listDepend is empty
 	return node;
 }	// close born
 
@@ -373,7 +412,7 @@ bool reborn(Tree *tree, Node* self, int step, bool moveFlag) {
 			// turn self into BLANK node
 		self->task = 0;
 		self->listChildren = new ListNode;
-		self->listDepend = new ListNode;
+		self->listDepend = new ListTask;
 			// from self, make branch grow (step - 1 ) level
 		for (int i = 0; i < (step - 1); i ++ ) {
 			self = born(self, 0);
@@ -401,14 +440,14 @@ bool reborn(Tree *tree, Node* self, int step, bool moveFlag) {
 		listChildren = listChildren->next;
 	}	// close while
 	// update list depend - recursive
-	ListNode *listDepend = self->listDepend;
+	ListTask *listDepend = self->listDepend;
 	while (true) {
 		// terminate when reach the end of listDepend
 		if (listDepend == NULL)
 			break;
-		if (listDepend->node == NULL)
+		if (listDepend->task == 0)
 			break;
-		bool moveDepend = reborn(tree, listDepend->node, step, true);
+		bool moveDepend = reborn(tree, tree->access[listDepend->task], step, true);
 		if (moveDepend == false)
 			return  false;
 		listDepend = listDepend->next;
@@ -435,3 +474,22 @@ void addListNode(ListNode* self, Node *node) {
 		self->next = newListNode;
 	}	// close if
 }	// close addListNode
+
+
+// LISTTASK CLASS IMPLEMENT
+
+// add task into list
+void addListTask(ListTask *self, int task) {
+	if (self->task == 0) {
+		self->task = task;
+		self->next = NULL;
+	} else {
+		// travel to end node
+		while (self->next != NULL)
+			self = self->next;
+			// close while
+		self->next = new ListTask;
+		self->next->task = task;
+		self->next->next = NULL;
+	}	// close if
+}	// close addListTask
