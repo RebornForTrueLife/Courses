@@ -123,6 +123,8 @@ int main(int argc, char const *argv[]) {
 		std::freopen("data.in", "r", stdin);
 	#endif	// CODING
 	ListTestCase *listTest = get_data();
+	if (listTest == NULL)
+		exit(-1);
 	TestCase *test = listTest->head;
 	while (test != NULL) {
 		std::cout << "m = " << test->numTask << " n = " << test->numRelation << "\n";
@@ -134,8 +136,6 @@ int main(int argc, char const *argv[]) {
 	}	// close while
 	std::cout << "size = " << listTest->size << "\n";	
 	// Solve problem
-	Tree tree;
-	init(&tree);
 
 	return 0;
 }	// end  main 
