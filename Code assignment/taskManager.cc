@@ -254,13 +254,13 @@ void init(Tree *tree) {
 bool grow(Tree *tree, TestCase *testCase) {
 	Node *root = tree->root;
 	tree->access = new Node* [(testCase->numTask) + 1];
-	(tree->access)[0] = root;
+	(tree->access)[0] = NULL;
 	tree->state = new int [(testCase->numTask) + 1];
-	tree->state[0] = 1;		// root is unmovable
+	tree->state[0] = 0;		// This state is for BLANK node, BLANK node is movable
 	// Update tree for each pair task relationship
 	for (int i = 0; i < testCase->numRelation; i ++ ) {
 		// change state of all node to movable
-		for (int i = 1; i <= testCase->numTask; i ++ ) 
+		for (int i = 0; i <= testCase->numTask; i ++ ) 
 			tree->state[i] = 0;	
 		int taskA = testCase->relation[i][0];
 		int taskB = testCase->relation[i][1];	// task B depends on A
@@ -397,8 +397,10 @@ bool reborn(Tree *tree, Node* self, int step, bool moveFlag) {
 	if (tree->state[self->task] == 1)
 		// circulate taks
 		return false;
-	else 
-		tree->state[self->task] = 1;		// mark it to unmovable
+	else {
+		if (self->task != 0)		// let BLANK node movable
+			tree->state[self->task] = 1;		// mark it to unmovable
+	}	// close if
 	// update self 
 		// make newSelf = copy(self) only when moveFlag is set
 	if (moveFlag) {
@@ -447,9 +449,13 @@ bool reborn(Tree *tree, Node* self, int step, bool moveFlag) {
 			break;
 		if (listDepend->task == 0)
 			break;
-		bool moveDepend = reborn(tree, tree->access[listDepend->task], step, true);
-		if (moveDepend == false)
-			return  false;
+		// compare level of dependent task and current node
+		if (tree->access[listDepend->task]->level <= self->level) {
+			// only move dependent task when its level lower or equal current node level
+			bool moveDepend = reborn(tree, tree->access[listDepend->task], step, true);
+			if (moveDepend == false)
+				return  false;
+		}	// close if
 		listDepend = listDepend->next;
 	}	// close while
 	return true;
