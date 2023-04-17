@@ -236,6 +236,7 @@ ListTask *solve(TestCase *testCase) {
 		std::cout << sol->task << " ";
 		sol = sol->next;
 	}	// close while
+	std::cout << "\n";
 	// destroy(tree);
 	return sol;
 }	// close solve 1 test case
@@ -312,9 +313,8 @@ ListTask *result(Tree *tree, TestCase *testCase) {
 	// sort the access array in accending order of level
 	// selection sort
 	for (int i = 1; i < numTask; i ++ ) { 
-		int levelI = tree->access[i]->level;
 		for (int j = i + 1; j <= numTask; j ++ ) {
-			if (levelI > tree->access[j]->level) {
+			if (tree->access[i]->level > tree->access[j]->level) {
 				Node *node = tree->access[i];
 				tree->access[i] = tree->access[j];
 				tree->access[j] = node;
