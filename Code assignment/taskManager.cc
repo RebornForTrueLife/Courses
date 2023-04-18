@@ -16,6 +16,7 @@
 #include <cstdio>
 #include <iostream>
 #include <string>
+#include <cstring>
 
 
 // MODE
@@ -275,9 +276,10 @@ void init(Tree *tree) {
 bool grow(Tree *tree, TestCase *testCase) {
 	Node *root = tree->root;
 	tree->access = new Node* [(testCase->numTask) + 1];
+	// initialize tree->access elements to NULL
+	std::memset(tree->access, 0, (testCase->numTask + 1) * sizeof(Node*));
 	(tree->access)[0] = NULL;
 	tree->state = new int [(testCase->numTask) + 1];
-	tree->state[0] = 0;		// This state is for BLANK node, BLANK node is movable
 	// Update tree for each pair task relationship
 	for (int i = 0; i < testCase->numRelation; i ++ ) {
 		// change state of all node to movable
@@ -403,11 +405,18 @@ Node* findAncestor(Node *self, Node *other) {
 	}	// close if
 	ancestor = other;
 	// move ancestor from other to the node having same level with self
-	while (true) {
+	while (ancestor != NULL) {
 		if (ancestor->level == self->level)
 			break;
 		ancestor = ancestor->parent;
 	}	// close while
+	// Normally this `ancestor == NULL` won't happen cuz Root is basic common ancestor
+		// just in case something wrong in building tree
+	if (ancestor == NULL) {
+		std::clog << "Can't not find ancestor!\n";
+		return self;
+	}	// close if
+
 	// move both ancestor and self until getting to common node
 	while (true) {
 		if (ancestor == self)
@@ -438,6 +447,14 @@ bool reborn(Tree *tree, Node* self, int step, bool moveFlag) {
 		newSelf->level = self->level;
 		newSelf->listChildren = self->listChildren;
 		newSelf->listDepend = self->listDepend;
+			// update parent of listChildren to new address
+		ListNode *child = self->listChildren;
+		while (child != NULL) {
+			if (child->node == NULL)	// empty listNode
+				break;
+			child->node->parent = newSelf;
+			child = child->next;
+		}	// close while
 			// update tree.access list
 		tree->access[self->task] = newSelf;
 			// turn self into BLANK node
@@ -452,7 +469,7 @@ bool reborn(Tree *tree, Node* self, int step, bool moveFlag) {
 		addListNode(self->listChildren, newSelf);
 			// change parent of newSelf to be lastNewNode
 		newSelf->parent = self;
-		self = newSelf;		
+		self = newSelf;
 	} // close if
 	// update level
 	self->level = self->level + step;
