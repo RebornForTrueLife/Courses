@@ -48,7 +48,9 @@
 			2. reborn(int step): move node and all its dependednt nodes down to [step] level
 			3. findAncestor(otherNode): find common ancestor of it and otherNode
 
+
 ## Modelize the solution by building the tree:
+
 - Update relation given node(a) and node(b)
 
 	<!-- for node(a) -->
@@ -90,6 +92,11 @@
 						> `Warning` Cirlular routine
 
 						> `Return` NULL
+
+- Update tree for tasks that does not have relation with other
+	> `For each` [task] not in relation list
+		
+		> `Create` node for [task], which is child of Root
 
 
 ## Code flow

@@ -17,7 +17,7 @@
 
 // MODE
 #define CODING		
-// #undef CODING
+#undef CODING
 
 
 // DATA STRUCTUREs
@@ -37,6 +37,16 @@ struct _TestCase {
 	// Operators
 	// validate(void): validate this testCase
 };
+
+/*	validate test case
+	- Criteria
+		(1) number task in range [1..] 
+		(2) all tasks in relation must in range [1..m] 
+	- Output
+		(1) NULL if valid
+		(2) a string inform reason of warning */
+std::string validate(TestCase *self);
+
 
 /* Linked List TestCase */
 struct _ListTestCase{
@@ -137,6 +147,9 @@ ListTestCase *get_data(void);
 	* NOTE: the function does not validate the input testCase */
 ListTask *solve(TestCase *testCase);
 
+/*	func to solve list of test cases */
+ListTask **solve(ListTestCase *listTest);
+
 
 // // // // MAIN
 int main(int argc, char const *argv[]) {
@@ -146,37 +159,12 @@ int main(int argc, char const *argv[]) {
 		std::freopen("data.in", "r", stdin);
 	#endif	// CODING
 	ListTestCase *listTest = get_data();
-	if (listTest == NULL)
+	if (listTest == NULL) {
+		std::cout << "FALSE to read data from stdin\n";
 		exit(-1);
-	TestCase *test = listTest->head;
-	while (test != NULL) {
-		std::cout << "m = " << test->numTask << " n = " << test->numRelation << "\n";
-		if (test->relation != NULL)		// not head
-			for (int i = 0; i < test->numRelation; i ++ ) {
-				std::cout << test->relation[i][0] << " " << test->relation[i][1] << "\n";
-			}	// close for
-		test = test->next;
-	}	// close while
-	std::cout << "size = " << listTest->size << "\n";	
-	// Solve problem
-	test = listTest->head->next;
-	Tree *tree = new Tree;
-	init(tree);
-	bool isGrow = grow(tree, test);
-	if (isGrow)
-		std::cout << "Grew!\n";
-	else
-		std::cout << "False\n";
-	for (int i = 0; i <= test->numTask; i ++ ) {
-		if (tree->access[i] != NULL) {
-			std::cout << "Task: " << tree->access[i]->task << "; ";
-			if (tree->access[i]->parent != NULL)
-				std::cout << "parent: " << tree->access[i]->parent->task << "; ";
-			std::cout << "Level: " << tree->access[i]->level << "\n";
-		}	// close if
-	}	// close for
-	// solve one test
-	ListTask *sol = solve(test);
+	}	// close if
+	// Solve list test case and Print out stdout
+	ListTask **listSol = solve(listTest);
 	return 0;
 }	// end  main 
 
@@ -228,18 +216,48 @@ ListTask *solve(TestCase *testCase) {
 	Tree *tree = new Tree;
 	init(tree);
 	bool isGrow = grow(tree, testCase);
+	ListTask *sol;
 	if (isGrow == false)		// no solution for this algo
-		return NULL;
-	ListTask *sol = result(tree, testCase);
-	// print sol
-	while (sol != NULL) {
-		std::cout << sol->task << " ";
-		sol = sol->next;
-	}	// close while
-	std::cout << "\n";
-	// destroy(tree);
+		sol = NULL;
+	else 
+		sol = result(tree, testCase);
+	destroy(tree);
 	return sol;
 }	// close solve 1 test case
+
+
+// Solve list of test cases
+ListTask **solve(ListTestCase *listTest) {
+	static ListTask **listSol = new ListTask* [listTest->size];
+	// solve each test case
+	TestCase *test = listTest->head;
+	for (int i = 0; i < listTest->size; i ++ ) {
+		test = test->next;
+		// validate test case
+		std::string validResult = validate(test);
+		if (!validResult.empty()) {
+			// if testCase is not valid
+			std::cout << validResult;		// print warning
+			listSol[i] = NULL;
+			continue;					// move to next test
+		}	// close if
+		listSol[i] = solve(test);
+		// Raise warning of curernt test case is not solved by current algo
+		if (listSol[i] == NULL) {
+			std::cout << "There maybe circular routine of test case #" << i + 1 
+				<< "; or This program can not solve this test case\n";
+			continue;
+		}	// close
+		// if solved, print solution
+		ListTask *sol = listSol[i];
+		while (sol != NULL) {
+			std::cout << sol->task << " ";
+			sol = sol->next;
+		}	// close while
+		std::cout << "\n";
+	}	// close for
+	return listSol;
+}	// close solve list test cases
 
 
 // TREE CLASS IMPLEMENT
@@ -302,6 +320,12 @@ bool grow(Tree *tree, TestCase *testCase) {
 		if (rebornDone == false) 
 			return false; 	// there is a circular routine
 	}	// close for
+	// Update node for tasks are not in relation list
+	for (int i = 1; i <= testCase->numTask; i ++ ) {
+		if (tree->access[i] == NULL) {
+			tree->access[i] = born(root, i);
+		}	// close if
+	}	// close for
 	return true;		// successfully grow
 }	// close grow
 
@@ -339,7 +363,9 @@ ListTask *result(Tree *tree, TestCase *testCase) {
 
 // destroy tree
 void destroy(Tree *tree) {
-
+	delete[] tree->access;
+	delete tree;
+	// std::clog << "Tree is released\n";
 }	// close destroy
 
 
@@ -499,3 +525,24 @@ void addListTask(ListTask *self, int task) {
 		self->next->next = NULL;
 	}	// close if
 }	// close addListTask
+
+
+// TESTCASE CLASS DEFINE
+
+// validate test case
+std::string validate(TestCase *self) {
+	std::string result = "";
+	if (self->numTask < 1){
+		result.assign("Warning: Number task must not < 1\n");
+	} else {
+		for (int i = 0; i < self->numRelation; i ++ ) {
+			bool firstTask = (self->relation[i][0] < 1) || (self->relation[i][0] > self->numTask);
+			bool secondTask = (self->relation[i][1] < 1) || (self->relation[i][1] > self->numTask);
+			if (firstTask || secondTask) {
+				result.assign("Warning: Invalid task in relation list\n");
+				break;
+			}	// close if
+		}	// close for
+	}	// close if
+	return result;
+}	// close validate
