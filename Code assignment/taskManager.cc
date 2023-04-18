@@ -6,8 +6,11 @@
 	- Run the object file
 	- Enter the list of test case in format(specified in section data in 
 	file codeDesign.md)
-	- The program will print out the an posible order of 
-	tasks for each test case 
+	- The program will 
+		(1) print out the an posible order of 
+			tasks for each test case
+		(2) Raise warning message if there is a circular routine; or the
+			the program can not solve the test case.
  ********************************************/
 
 #include <cstdio>
@@ -17,7 +20,7 @@
 
 // MODE
 #define CODING		
-#undef CODING
+// #undef CODING
 
 
 // DATA STRUCTUREs
