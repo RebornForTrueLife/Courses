@@ -21,7 +21,7 @@
 
 // MODE
 #define CODING		
-// #undef CODING
+#undef CODING
 
 
 // DATA STRUCTUREs
