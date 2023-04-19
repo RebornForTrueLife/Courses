@@ -17,6 +17,7 @@
 
 		> Mobile Application: 
 			1. since mobile phones are widely used nowaday
+
 			2. help user can check their buying list even when they don't have internet connection
 
 	- Using JVM(Java)
@@ -27,40 +28,50 @@
 2. Technical features
 	- Data management
 		1. Item database
+
 			> In the highest abtract layer, database will be a list of Item Type. For example: rose soap and orchid soap are the same item type.
+
 			> Each Item Type will contain a list of items of that type, which are classified by unique ID.
+
 			> Each Item will have its set of properties, such as: ID, type, product name, manufacturer, check-in date, expiration date, buy date,...
+
 		2. User data
 			> User data should contain below information
 				- User account: username, password
 				- User location: for better suggesting shopping place
 	- Classes
-		> Using Object-oriented approach to modelize the problem into set of objects. There are 3 basic classes:
-			1. User class
-				> Provide services: 
-					- Control user account: store account information, login, logout, sign up, unsubscribe(delete account)
+		> Using Object-oriented approach to modelize the problem into set of objects. There are 3 basic classes
 
-				> Contain: user's manager
+		1. User class
+			- Provide services: 
 
-			2. Manager class
-				> Provide services:
-					- Manage user's items: (1)access/modify Item database; (2) list out items user want to buy with specified date/time; (3) notify items nearly exprired; (4) list remaining items at home
-					- Communicate with suggester behalf of user: request suggester provide list of "good" places given list of items
+				> Control user account: store account information, login, logout, sign up, unsubscribe(delete account)
 
-			3. Suggester class
-				> Provide services:
-					- List "good" places in order for a given items, "good" can be consider: best place(customers rate), cheapest prices. 
-					- Suggest place for list of items. There are 2 criteria: (1) location; (2) "good" place. Location cretirion is used for user want to buy in near shops, while (2)nd criterion give high priority for rating.
+			- Contain: user's manager
 
-				> Note: suggester class does not work offline, because its data should not be stored in user memory.
+		2. Manager class
+			- Provide services:
+				> Manage user's items: (1)access/modify Item database; (2) list out items user want to buy with specified date/time; (3) notify items nearly exprired; (4) list remaining items at home
+
+				> Communicate with suggester behalf of user: request suggester provide list of "good" places given list of items
+
+		3. Suggester class
+			- Provide services:
+				> List "good" places in order for a given items, "good" can be consider: best place(customers rate), cheapest prices. 
+
+				> Suggest place for list of items. There are 2 criteria: (1) location; (2) "good" place. Location cretirion is used for user want to buy in near shops, while (2)nd criterion give high priority for rating.
+
+			*Note: suggester class does not work offline, because its data should not be stored in user memory.*
 
 3. Challenges
 	1. To satisfy user's desire
-		- why user should use the app instead of normal, usual ways: remember the buying list or just simply write down to a note?
+		> why user should use the app instead of normal, usual ways: remember the buying list or just simply write down to a note?
+
 	2. Advertisement:
-		- Even when the application meets user's desire, how to make them attract to the application enough to install it(without annoy them and using too much budget for advertisement)?
+		> Even when the application meets user's desire, how to make them attract to the application enough to install it(without annoy them and using too much budget for advertisement)?
+
 	3. User data
-		- The application store user's private information - what they bought. How we ensure the privacy of user's  data and how we prove to user that we can do that?
+		> The application store user's private information - what they bought. How we ensure the privacy of user's  data and how we prove to user that we can do that?
 
 4. Project estimation
 	- Project will operate in 3 phases:
@@ -100,8 +111,12 @@
 			- Estimate time: until the application no longer exists
 
 	- Timeline:
-		Month 		Phase
-		1 - 2		Idealize and building phase
-		3 - 8		Testing phase
-		9 - ...		Deciding if "Fully deploying phase" can be deployed base on testing phase
+
+		> Month 		Phase
+
+		> 1 - 2			Idealize and building phase
+
+		> 3 - 8			Testing phase
+
+		> 9 - ...		Deciding if "Fully deploying phase" can be deployed base on testing phase
 
