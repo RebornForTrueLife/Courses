@@ -3,6 +3,7 @@
 
 
 ## Main features
+
 1. Users are able to list daily/weekly/monthly items they want to buy
 2. Check the remaining items at home
 3. Users can manage the check-in and expiration date for the product they bought
@@ -10,7 +11,8 @@
 5. Users can select the list of items. The tool will suggest the best place with the cheapest price.
 
 
-## Document
+## Specification
+
 1. Platform and language
 	- This application is built on both web and mobile application
 		> Web application: provide user can access the app information on any devices that have internet
@@ -118,5 +120,5 @@
 
 		3 - 8 			Testing phase
 
-		9 - .. 			Deciding if "Fully deploying phase" can be deployed base on testing phase
+		9 - ?			Deciding if "Fully deploying phase" can be deployed base on testing phase
 		```
