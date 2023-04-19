@@ -111,12 +111,12 @@
 			- Estimate time: until the application no longer exists
 
 	- Timeline:
+		```
+		Month 			Phase
 
-		> Month 		Phase
+		1 - 2			Idealize and building phase
 
-		> 1 - 2			Idealize and building phase
+		3 - 8			Testing phase
 
-		> 3 - 8			Testing phase
-
-		> 9 - ...		Deciding if "Fully deploying phase" can be deployed base on testing phase
-
+		9 - ...			Deciding if "Fully deploying phase" can be deployed base on testing phase
+		```
