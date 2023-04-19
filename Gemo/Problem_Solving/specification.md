@@ -14,7 +14,7 @@
 ## Specification
 
 1. Platform and language
-	- This application is built on both web and mobile application
+	- This application is built on both web and mobile platform
 		> Web application: provide user can access the app information on any devices that have internet
 
 		> Mobile Application: 
