@@ -18,6 +18,7 @@
 		> Web application: provide user can access the app information on any devices that have internet
 
 		> Mobile Application: 
+
 			1. since mobile phones are widely used nowaday
 
 			2. help user can check their buying list even when they don't have internet connection
@@ -39,8 +40,11 @@
 
 		2. User data
 			> User data should contain below information
+
 				- User account: username, password
+
 				- User location: for better suggesting shopping place
+
 	- Classes
 		> Using Object-oriented approach to modelize the problem into set of objects. There are 3 basic classes
 
@@ -55,13 +59,13 @@
 			- Provide services:
 				> Manage user's items: (1)access/modify Item database; (2) list out items user want to buy with specified date/time; (3) notify items nearly exprired; (4) list remaining items at home
 
-				> Communicate with suggester behalf of user: request suggester provide list of "good" places given list of items
+				> Communicate with suggester on behalf of user: request suggester provide list of "good" places given list of items
 
 		3. Suggester class
 			- Provide services:
 				> List "good" places in order for a given items, "good" can be consider: best place(customers rate), cheapest prices. 
 
-				> Suggest place for list of items. There are 2 criteria: (1) location; (2) "good" place. Location cretirion is used for user want to buy in near shops, while (2)nd criterion give high priority for rating.
+				> Suggest place for list of items. There are 2 criteria: (1) location; (2) "good" place. Location criterion is used for user want to buy in near shops, while (2)nd criterion give high priority for rating.
 
 			*Note: suggester class does not work offline, because its data should not be stored in user memory.*
 
@@ -78,18 +82,18 @@
 4. Project estimation
 	- Project will operate in 3 phases:
 		1. Idealize and build system
-			- Description: this phase is for idealize the system process, plan for advertise, and build system ready to run
+			- Description: this phase is for idealize the system process, plan for advertising, and build system ready to run
 
 				> Refine Ideas -> system model -> coding system
 
-				> Plan for advertisement campaign
+				> Plan for advertising campaign
 
 				> Estimate budget for all activities in phase 1 and phase 2
 
 			- Estimate time: 2 months
 
 		2. Testing phase
-			- Description: this phase is for small operating system: let user know the app, and receive feed back to improve system
+			- Description: this phase is for small scale of system: let user know the app, and receive feed back to improve system
 
 				> Advertise 
 
@@ -100,7 +104,7 @@
 			- Estimate time: 6 months
 
 		3. Fully Deploying phase
-			- Description: This phase will not be deployed until system of phase 2 is not sufficient for the increase of user number.
+			- Description: This phase will not be deployed until receiving enough proof from feedback, number of users that the application is useful and should be scaled.
 
 				> Keep Advertising
 
