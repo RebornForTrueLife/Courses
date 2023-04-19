@@ -116,7 +116,7 @@
 
 		1 - 2			Idealize and building phase
 
-		3 - 8			Testing phase
+		3 - 8 			Testing phase
 
-		9 - ...			Deciding if "Fully deploying phase" can be deployed base on testing phase
+		9 - .. 			Deciding if "Fully deploying phase" can be deployed base on testing phase
 		```
