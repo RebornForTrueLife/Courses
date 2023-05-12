@@ -26,7 +26,7 @@ public class Sandwich extends ItemFood {
 
 	@Override
 	public void initializeInformation() {
-		Scanner scan = new Scanner(System.in);
+		Scanner scan = new Scanner(System.in).useDelimiter("\n");
 		String answer;
 		// get information
 		System.out.println("Please enter the information of the sandwich: ");

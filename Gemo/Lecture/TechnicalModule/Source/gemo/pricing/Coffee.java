@@ -26,7 +26,7 @@ public final class Coffee extends ItemDrink {
 		String type;				// coffee type
 		String size;				// size
 		int isAddCream;		// adding cream?
-		Scanner scan = new Scanner(System.in);
+		Scanner scan = new Scanner(System.in).useDelimiter("\n");
 		System.out.println("Please input coffee information: ");
 																// set type
 		System.out.print("Type (hot / cold / blended) : ");	
@@ -51,15 +51,13 @@ public final class Coffee extends ItemDrink {
 	
 	@Override
 	public float calculatePrice() {
-		float price = 0;				// total price
 		// CALCULATE Additional PRICE of a coffee order
 		float additionPrice = 0;		// additional price
 		additionPrice = this.calculateAdditionalPrice();
 		if (additionPrice == -1) 		// violate contraints
-			return -1;
+			return 0;
 		// CALCULATE total PRICE
-		price += this.basePrice + additionPrice;
-		return price;
+		return (this.basePrice + additionPrice);
 	}	// close calculatePrice
 
 }	// close Coffee

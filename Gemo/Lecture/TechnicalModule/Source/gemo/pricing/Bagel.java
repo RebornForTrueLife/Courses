@@ -26,7 +26,7 @@ public class Bagel extends ItemFood {
 
 	@Override
 	public void initializeInformation() {
-		Scanner scan = new Scanner(System.in);
+		Scanner scan = new Scanner(System.in).useDelimiter("\n");
 		String answer;
 		// set information
 		System.out.println("Please enter information of the bagel: ");
@@ -35,7 +35,7 @@ public class Bagel extends ItemFood {
 		answer = scan.next();
 		this.isButter = getAnswer(answer);
 															// adding cream cheese
-		System.out.print("Do you want to add cream cheese? (yes/no)");
+		System.out.print("Do you want to add cream cheese? (yes/no): ");
 		answer = scan.next();
 		this.isCreamCheese = getAnswer(answer);
 	}	// close initializeInformation

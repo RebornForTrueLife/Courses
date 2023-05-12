@@ -26,7 +26,7 @@ public final class MilkTea extends ItemDrink {
 	public void initializeInformation() {
 		String type;
 		String size;
-		Scanner scan = new Scanner(System.in);
+		Scanner scan = new Scanner(System.in).useDelimiter("\n");
 		System.out.println("Please enter milk tea info:");
 															// set type
 		System.out.print("Type (hot / cold / blended): ");
@@ -37,10 +37,10 @@ public final class MilkTea extends ItemDrink {
 		size = scan.next();
 		setSize(size);
 															// is adding cream?
-		System.out.print("Is adding cream (1 for yes / 0 for no): ");
+		System.out.print("Is adding cream (yes/no): ");
 		this.isAddCream = getAnswer(scan.next());
 															// us almond milk?
-		System.out.print("Is almond milk (1 for yes / 0 for no): ");
+		System.out.print("Is almond milk (yes/no): ");
 		this.isAlmondMilk = getAnswer(scan.next());
 																// adding chocolate sauce?
 		int numAddChocolateSauce = 0;
@@ -54,18 +54,16 @@ public final class MilkTea extends ItemDrink {
 
 	@Override
 	public float calculatePrice() {
-		float price = 0;				// total price
 		float additionalPrice = 0;
 		// CALCULATE additional price
 		additionalPrice = this.calculateAdditionalPrice();
 		if (additionalPrice == -1) 		// violate constraints
-			return -1;
+			return 0;
 										// base on whether it's almond milk?
 		if (this.isAlmondMilk)
 			additionalPrice += 0.5f;
 		// calculate price
-		price = this.basePrice + additionalPrice;
-		return price;
+		return (this.basePrice + additionalPrice);
 	}	// close calculatePrice
 
 }	// close MilkTea
