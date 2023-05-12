@@ -39,6 +39,13 @@ public final class Coffee extends ItemDrink {
 																// is adding cream?
 		System.out.print("Is adding cream (yes/no): ");
 		this.isAddCream = getAnswer(scan.next());
+																// adding chocolate sauce?
+		int numAddChocolateSauce = 0;
+		if (this.type.equals("hot")) {
+			System.out.print("How many pumps of chocolate sauce you want?(0 means no): ");
+			numAddChocolateSauce = scan.nextInt();
+		}	// close if
+		setNumAddChocolateSauce(numAddChocolateSauce);
 	}	// close initializeInformation
 	
 	

@@ -42,6 +42,13 @@ public final class MilkTea extends ItemDrink {
 															// us almond milk?
 		System.out.print("Is almond milk (1 for yes / 0 for no): ");
 		this.isAlmondMilk = getAnswer(scan.next());
+																// adding chocolate sauce?
+		int numAddChocolateSauce = 0;
+		if (this.type.equals("hot")) {
+			System.out.print("How many pumps of chocolate sauce you want?(0 means no): ");
+			numAddChocolateSauce = scan.nextInt();
+		}	// close if
+		setNumAddChocolateSauce(numAddChocolateSauce);
 	}	// close initializeInformation
 
 

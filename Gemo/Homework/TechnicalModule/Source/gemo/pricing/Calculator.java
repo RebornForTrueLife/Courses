@@ -60,14 +60,14 @@ public class Calculator {
 		float drinkPrice = calculatePrice2();
 										// breakfast options
 		Scanner scan = new Scanner(System.in);
-		System.out.println("Do you want to have breakfast? (yes/no): ");
+		System.out.print("Do you want to have breakfast? (yes/no): ");
 		String answer = scan.next();
 		if (!Item.getAnswer(answer))			// no breakfast
 			return drinkPrice;
 										// have breakfast
 		ItemFood food;
 		float foodPrice = 0;
-		System.out.println("what choice of breakfast do you want? (sandwich/bagel): ");
+		System.out.print("what choice of breakfast do you want? (sandwich/bagel): ");
 		String name = scan.next();
 		if (name.equalsIgnoreCase("sandwich"))
 			food = new Sandwich(name);

@@ -16,6 +16,7 @@ public abstract class ItemDrink extends Item {
 	boolean isAddCream;				// adding cream?
 	float basePrice;					// base price to calculate total price
 	boolean isAddChocolateSouce;	// adding chocolate sauce?
+	int numAddChocolateSauce;		// number of chocolate pumps 
 
 
 	// Constructor
@@ -70,6 +71,14 @@ public abstract class ItemDrink extends Item {
 											// base on adding cream?
 		if (this.isAddCream)
 			additionPrice += 0.5f;
+											// base on adding chocolate sauce
+		if (this.numAddChocolateSauce > 2)		// 2 first pumps are free
+			if (!this.type.equals("hot")) {			
+					System.out.println("# Chocolate sauce is only available for hot drink");
+					return -1;
+				}	// close if
+			else 
+				additionPrice += (this.numAddChocolateSauce - 2) * 0.5;		// $.5 for each extra pumps
 
 		return additionPrice;
 	}	// close calculateAdditionalPrice
@@ -113,5 +122,16 @@ public abstract class ItemDrink extends Item {
 		else
 			this.basePrice = 0;
 	}	// close setBasePrice
+
+
+	// set IsAddChocolateSauce: set as 0 if not add, otherwise, represent number of pumps
+	void setNumAddChocolateSauce(int numAddChocolateSauce) {
+		if (numAddChocolateSauce <= 0) 
+			this.numAddChocolateSauce = 0;
+		else if (numAddChocolateSauce <= 6)
+			this.numAddChocolateSauce = numAddChocolateSauce;
+		else
+			this.numAddChocolateSauce = 6;		// maximum is 6 pumps
+	}	// close setIsAddChocolateSauce
 
 }	// close ItemDrink
