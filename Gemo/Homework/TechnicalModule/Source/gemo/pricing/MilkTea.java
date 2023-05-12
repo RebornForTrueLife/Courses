@@ -13,12 +13,12 @@ import java.util.*;
 
 public final class MilkTea extends ItemDrink {
 
-	int isAlmondMilk;					// is adding almond milk?
+	boolean isAlmondMilk;			// is adding almond milk?
 
 	
 	public MilkTea(String name) {
 		super(name);
-		this.basePrice = 2.25f;		// base price for milk tea
+		setBasePrice(2.25f);			// base price for milk tea
 	}	// close constructor
 
 
@@ -26,22 +26,22 @@ public final class MilkTea extends ItemDrink {
 	public void initializeInformation() {
 		String type;
 		String size;
-		int isAddCream;
-		int isAlmondMilk;
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Please enter milk tea info:");
+															// set type
 		System.out.print("Type (hot / cold / blended): ");
 		type = scan.next();
+		setType(type);
+															// set size
 		System.out.print("Size (S / M / L / XL): ");
 		size = scan.next();
-		System.out.print("Is adding cream (1 for yes / 0 for no): ");
-		isAddCream = scan.nextInt();
-		System.out.print("Is almond milk (1 for yes / 0 for no): ");
-		isAlmondMilk = scan.nextInt();
-		setType(type);
 		setSize(size);
-		setIsAddCream(isAddCream);
-		setIsAlmondMilk(isAlmondMilk);
+															// is adding cream?
+		System.out.print("Is adding cream (1 for yes / 0 for no): ");
+		this.isAddCream = getAnswer(scan.next());
+															// us almond milk?
+		System.out.print("Is almond milk (1 for yes / 0 for no): ");
+		this.isAlmondMilk = getAnswer(scan.next());
 	}	// close initializeInformation
 
 
@@ -53,28 +53,12 @@ public final class MilkTea extends ItemDrink {
 		additionalPrice = this.calculateAdditionalPrice();
 		if (additionalPrice == -1) 		// violate constraints
 			return -1;
-		
-		switch (this.isAlmondMilk) {			// base on whether it's almond milk?
-		case 1:
+										// base on whether it's almond milk?
+		if (this.isAlmondMilk)
 			additionalPrice += 0.5f;
-			break;
-		case 0:
-			break;
-		default:
-			System.out.println("# Unknown whether this is almond milk or normal milk");
-			return -1;
-		}	// close switch
 		// calculate price
 		price = this.basePrice + additionalPrice;
 		return price;
 	}	// close calculatePrice
 
-
-	// set isAlmondMilk
-	void setIsAlmondMilk(int isAlmondMilk) {
-		if (isAlmondMilk > 0)
-			this.isAlmondMilk = 1;
-		else 
-			this.isAlmondMilk = 0;
-	}	// close setIsAlmondMilk
 }	// close MilkTea

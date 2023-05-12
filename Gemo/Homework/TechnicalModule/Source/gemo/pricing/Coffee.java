@@ -15,7 +15,7 @@ public final class Coffee extends ItemDrink {
 
 	public Coffee(String name) {
 		super(name);
-		this.basePrice = 2f;		// default base price of coffee
+		setBasePrice(2f);		// default base price of coffee
 	}	// clsoe ItemDrink
 
 
@@ -28,16 +28,17 @@ public final class Coffee extends ItemDrink {
 		int isAddCream;		// adding cream?
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Please input coffee information: ");
+																// set type
 		System.out.print("Type (hot / cold / blended) : ");	
 		type = scan.next();
+		setType(type);
+																// set size
 		System.out.print("Size (S / M / L / XL): ");
 		size = scan.next();
-		System.out.print("Is adding cream (1 for yes / 0 for no): ");
-		isAddCream = scan.nextInt();
-		// set info
-		setType(type);
 		setSize(size);
-		setIsAddCream(isAddCream);
+																// is adding cream?
+		System.out.print("Is adding cream (yes/no): ");
+		this.isAddCream = getAnswer(scan.next());
 	}	// close initializeInformation
 	
 	

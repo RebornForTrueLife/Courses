@@ -10,6 +10,9 @@ package gemo.pricing;
 import gemo.pricing.ItemDrink;
 import gemo.pricing.Coffee;
 import gemo.pricing.MilkTea;
+import gemo.pricing.ItemFood;
+import gemo.pricing.Sandwich;
+import gemo.pricing.Bagel;
 
 import java.util.*;
 
@@ -52,8 +55,36 @@ public class Calculator {
 	}	// close calculatePrice2
 
 
+	public static float calculatePrice3() {
+										// drink options
+		float drinkPrice = calculatePrice2();
+										// breakfast options
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Do you want to have breakfast? (yes/no): ");
+		String answer = scan.next();
+		if (!Item.getAnswer(answer))			// no breakfast
+			return drinkPrice;
+										// have breakfast
+		ItemFood food;
+		float foodPrice = 0;
+		System.out.println("what choice of breakfast do you want? (sandwich/bagel): ");
+		String name = scan.next();
+		if (name.equalsIgnoreCase("sandwich"))
+			food = new Sandwich(name);
+		else if (name.equalsIgnoreCase("bagel"))
+			food = new Bagel(name);
+		else {
+			System.out.println("# Unknown breakfast!");
+			return drinkPrice;
+		}  	// close if
+		food.initializeInformation();				// get food infor
+		foodPrice = food.calculatePrice();		// calculate breakfast price
+		return (drinkPrice + foodPrice);
+	}	// close calculatePrice3
+
+
 	public static void main(String[] args) {
-		System.out.println("Price of your coffee is: $" + Calculator.calculatePrice2());
+		System.out.println("Price of your coffee order is: $" + Calculator.calculatePrice3());
 	}	// close main
 	
 }	// close Calculator

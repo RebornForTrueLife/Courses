@@ -11,11 +11,11 @@ import gemo.pricing.Item;
 
 public abstract class ItemDrink extends Item {
 	
-	String type;					// hot, cold, blended...
-	String size;					// S, M, L, XL
-	int isAddCream;				// 1: yes, 0: no
-	float basePrice;				// base price to calculate total price
-	int isAddChocolateSouce;		// 1: yes, 0: no
+	String type;						// hot, cold, blended...
+	String size;						// S, M, L, XL
+	boolean isAddCream;				// adding cream?
+	float basePrice;					// base price to calculate total price
+	boolean isAddChocolateSouce;	// adding chocolate sauce?
 
 
 	// Constructor
@@ -30,7 +30,8 @@ public abstract class ItemDrink extends Item {
 
 	public float calculateAdditionalPrice() {
 		float additionPrice = 0;
-		switch (this.type) {			// base on Type
+												// base on Type
+		switch (this.type) {			
 		case "hot":
 		case "cold":
 			break;
@@ -41,7 +42,8 @@ public abstract class ItemDrink extends Item {
 			System.out.println("Unknown type");
 			return -1;
 		}	// close switch
-		switch (this.size) {			// base on Size
+												// base on size
+		switch (this.size) {			
 		case "s":
 			break;
 		case "m":
@@ -65,15 +67,10 @@ public abstract class ItemDrink extends Item {
 			System.out.println("Unkown size");
 			return -1;
 		}	// close switch
-		switch (this.isAddCream) {	// base on adding cream?
-		case 1:
-			additionPrice += 0.5;
-		case 0:
-			break;
-		default:
-			System.out.println("Unkown whether adding cream or not");
-			return -1;
-		}	// close switch
+											// base on adding cream?
+		if (this.isAddCream)
+			additionPrice += 0.5f;
+
 		return additionPrice;
 	}	// close calculateAdditionalPrice
 
@@ -107,24 +104,6 @@ public abstract class ItemDrink extends Item {
 			this.size = "";
 		}	// close switch
 	}	// close setSize
-
-
-	// set isAddCream: check or convert into standard form
-	void setIsAddCream(int isAddCream) {
-		if (isAddCream > 0)
-			this.isAddCream = 1;
-		else
-			this.isAddCream = 0;
-	}	// close setIsAddCream
-
-
-	// set IsAddChocolateSouce
-	void setIsAddChocolateSouce(int isAddChocolateSouce) {
-		if (isAddChocolateSouce > 0) 
-			this.isAddChocolateSouce = 1;
-		else 
-			this.isAddChocolateSouce = 0;
-	}	// close setIsAddChocolateSouce
 
 
 	// set base price
