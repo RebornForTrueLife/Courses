@@ -1,0 +1,8 @@
+# Ignore file
+
+# ignore classes
+Class/
+
+# Ignore configure folder
+Configure/
+makefile

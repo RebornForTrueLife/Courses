@@ -1,1 +1,0 @@
--d /home/minh/Learning/Courses/Gemo/Lecture/TechnicalModule/Class
