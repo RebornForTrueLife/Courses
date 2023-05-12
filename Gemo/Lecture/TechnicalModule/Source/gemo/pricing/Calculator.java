@@ -29,12 +29,6 @@ public class Calculator {
 	}	// close calculatePrice1
 
 
-	/* My mistake, I modified directly into classes so the new feature is also added into calculatePrice2 */
-	public static float calculatePrice2() {
-		return calculatePrice3();
-	}	// calcualtePrice3
-
-
 	/* Calcualte price of given drink: coffee or milk */
 	public static float calculatePrice3() {
 		ItemDrink drink;
@@ -59,7 +53,7 @@ public class Calculator {
 
 	public static float calculatePrice4() {
 										// drink options
-		float drinkPrice = calculatePrice2();
+		float drinkPrice = calculatePrice3();
 										// breakfast options
 		Scanner scan = new Scanner(System.in).useDelimiter("\n");
 		System.out.print("Do you want to have breakfast? (yes/no): ");
