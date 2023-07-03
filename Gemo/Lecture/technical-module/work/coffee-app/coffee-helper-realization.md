@@ -1,7 +1,7 @@
 
 Coffee-shop helper program
-***To help the coffee shop to manage the ordering of their customer***
 ===
+***To help the coffee shop to manage the ordering of their customer***
 
 
 # Product direction
